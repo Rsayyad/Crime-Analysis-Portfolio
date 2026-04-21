@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raneem Sayyad — Crime & Data Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #0f1117;
+  --paper: #f4f1eb;
+  --paper2: #ece8df;
+  --accent: #8b2635;
+  --accent2: #b5622a;
+  --muted: #6b6560;
+  --line: rgba(15,17,23,0.1);
+  --line2: rgba(15,17,23,0.06);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* Grain overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.7;
+}
+
+/* ── NAVIGATION ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1.2rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(244,241,235,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--ink); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  padding: 10rem 3rem 5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg-text {
+  position: absolute;
+  bottom: -2rem;
+  right: -1rem;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(8rem, 18vw, 18rem);
+  font-weight: 700;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--line);
+  pointer-events: none;
+  line-height: 1;
+  user-select: none;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+
+.eyebrow::before {
+  content: '';
+  display: block;
+  width: 36px;
+  height: 1px;
+  background: var(--accent);
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.8rem, 6vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+}
+
+h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.hero-desc {
+  font-size: 1.05rem;
+  color: var(--muted);
+  max-width: 420px;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+}
+
+.btn-group {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.4rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  background: transparent;
+  transition: all 0.22s;
+  cursor: pointer;
+}
+
+.btn:hover { background: var(--ink); color: var(--paper); }
+
+.btn-accent {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.btn-accent:hover { background: #6e1d29; border-color: #6e1d29; color: #fff; }
+
+/* Hero right — interactive stat panel */
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.stat-block {
+  background: var(--paper);
+  padding: 1.75rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.25s;
+}
+
+.stat-block::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 0;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.stat-block:hover { background: var(--paper2); }
+.stat-block:hover::before { width: 3px; }
+
+.stat-n {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--ink);
+  transition: color 0.2s;
+}
+
+.stat-block:hover .stat-n { color: var(--accent); }
+
+.stat-n em { font-style: italic; color: var(--accent); font-size: 1.5rem; }
+
+.stat-l {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── SECTIONS ── */
+section {
+  padding: 5rem 3rem;
+}
+
+.section-label {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.section-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* ── PROJECTS ── */
+#projects { background: var(--paper2); }
+
+.filter-bar {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
+.filter-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  padding: 0.35rem 0.9rem;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.filter-btn:hover, .filter-btn.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.project-card {
+  background: var(--paper2);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.22s;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0;
+  height: 2px;
+  width: 0;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.project-card:hover { background: var(--paper); }
+.project-card:hover::after { width: 100%; }
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.card-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(139,38,53,0.07);
+  padding: 0.2rem 0.55rem;
+}
+
+.card-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--muted);
+}
+
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.card-desc {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.7;
+  flex: 1;
+  margin-bottom: 1.25rem;
+}
+
+.card-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  margin-top: auto;
+}
+
+.card-tools {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.tool-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  padding: 0.12rem 0.45rem;
+}
+
+.card-arrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: letter-spacing 0.2s;
+}
+
+.project-card:hover .card-arrow { letter-spacing: 0.12em; }
+
+/* ── ABOUT ── */
+#about {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 5rem;
+}
+
+.about-body p {
+  font-size: 1rem;
+  color: var(--muted);
+  margin-bottom: 1.1rem;
+  line-height: 1.85;
+}
+
+.about-body p strong { color: var(--ink); font-weight: 500; }
+
+/* ── INTERACTIVE TIMELINE ── */
+.timeline-section {
+  margin-top: 2.5rem;
+}
+
+.timeline-head {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.timeline {
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0.4rem; bottom: 0;
+  width: 1px;
+  background: var(--line);
+}
+
+.tl-item {
+  position: relative;
+  margin-bottom: 1.5rem;
+  cursor: pointer;
+}
+
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -1.5rem;
+  top: 0.45rem;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--paper2);
+  border: 1.5px solid var(--muted);
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.tl-item:hover::before, .tl-item.open::before {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.tl-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.2rem;
+}
+
+.tl-role {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 0.1rem;
+}
+
+.tl-org {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+.tl-detail {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+  opacity: 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-top: 0;
+}
+
+.tl-item.open .tl-detail {
+  max-height: 200px;
+  opacity: 1;
+  margin-top: 0.6rem;
+}
+
+/* Skills grid */
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+
+.skill-chip {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--line);
+  background: var(--paper2);
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  cursor: default;
+}
+
+.skill-chip:hover { border-color: var(--accent); color: var(--ink); background: var(--paper); }
+
+.skill-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+/* ── CONTACT SIDEBAR ── */
+.about-sidebar {}
+
+.contact-card {
+  border: 1px solid var(--line);
+  padding: 1.5rem;
+  margin-bottom: 1px;
+  transition: background 0.2s;
+}
+
+.contact-card:hover { background: var(--paper2); }
+
+.contact-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.4rem;
+}
+
+.contact-val {
+  font-size: 0.9rem;
+  color: var(--ink);
+  font-weight: 400;
+}
+
+.contact-val a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.contact-val a:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ── CERTIFICATIONS ── */
+.certs-section {
+  margin-top: 2rem;
+}
+
+.certs-head {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.cert-item {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--line2);
+}
+
+.cert-name {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 0.2rem;
+}
+
+.cert-issuer {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.cert-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--muted);
+  margin-top: 0.2rem;
+}
+
+/* ── LANGUAGES ── */
+.lang-section {
+  margin-top: 2rem;
+}
+
+.lang-head {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.lang-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--line2);
+}
+
+.lang-name {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.lang-level {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 1.75rem 3rem;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── ANIMATIONS ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+.reveal.in { opacity: 1; transform: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav, section, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .hero { grid-template-columns: 1fr; padding: 8rem 1.5rem 3rem; }
+  .hero-bg-text { display: none; }
+  .hero-right { display: none; }
+  #about { grid-template-columns: 1fr; gap: 2rem; }
+  .projects-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 1100px) {
+  .projects-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-brand">Raneem Sayyad</span>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="mailto:raneemsayyad5@gmail.com">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="eyebrow">Crime &amp; Data Analyst</p>
+    <h1>Intelligence<br>from <em>data.</em><br>Safety from<br>insight.</h1>
+    <p class="hero-desc">
+      M.S. Criminal Justice candidate at George Mason University,
+      specializing in spatial crime mapping, predictive modeling,
+      and evidence-based law enforcement strategy.
+    </p>
+    <div class="btn-group">
+      <a href="#projects" class="btn btn-accent">View My Work</a>
+      <a href="https://www.linkedin.com/in/rsayyad/" target="_blank" class="btn">LinkedIn</a>
+      <a href="mailto:raneemsayyad5@gmail.com" class="btn">Email Me</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="stat-block">
+      <span class="stat-n">6</span>
+      <span class="stat-l">Completed Research Projects</span>
+    </div>
+    <div class="stat-block">
+      <span class="stat-n">4.0</span>
+      <span class="stat-l">M.S. GPA · Academic Excellence Award</span>
+    </div>
+    <div class="stat-block">
+      <span class="stat-n">3.7<em>+</em></span>
+      <span class="stat-l">B.A. GPA · Cum Laude · Dean's List ×7</span>
+    </div>
+    <div class="stat-block">
+      <span class="stat-n">R · ArcGIS</span>
+      <span class="stat-l">ARIMA · Neural Networks · Spatial Analysis</span>
+    </div>
+    <div class="stat-block">
+      <span class="stat-n">GMU</span>
+      <span class="stat-l">George Mason University · Fairfax, VA</span>
+    </div>
+  </div>
+
+  <div class="hero-bg-text" aria-hidden="true">DATA</div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label reveal">
+    <span class="section-num">01</span>
+    <h2>Research Projects</h2>
+  </div>
+
+  <div class="filter-bar reveal">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="forecasting">Forecasting</button>
+    <button class="filter-btn" data-filter="spatial">Spatial</button>
+    <button class="filter-btn" data-filter="bias">Bias Crime</button>
+    <button class="filter-btn" data-filter="drug">Drug Analysis</button>
+  </div>
+
+  <div class="projects-grid">
+
+    <!-- 01 -->
+    <a class="project-card reveal" href="CRIM%20545%20Final%20Project%20Raneem%20Sayyad.html" target="_blank" data-cats="forecasting spatial">
+      <div class="card-head">
+        <span class="card-tag">&#9670; Neural Net · Capstone</span>
+        <span class="card-num">01</span>
+      </div>
+      <h3 class="card-title">Larceny Calls for Service: Spatial &amp; Neural Network Forecast — City of Fairfax, VA</h3>
+      <p class="card-desc">
+        Analyzed 10,623 larceny calls (2007–2025) from the Fairfax PD. Built a univariate neural network model in R to forecast daily calls through 2026, identifying peak risk months, temporal topology (1–4 PM weekdays), and spatial hotspots.
+      </p>
+      <div class="card-foot">
+        <div class="card-tools">
+          <span class="tool-tag">R</span>
+          <span class="tool-tag">Neural Network</span>
+          <span class="tool-tag">ArcGIS</span>
+        </div>
+        <span class="card-arrow">View &rarr;</span>
+      </div>
+    </a>
+
+    <!-- 02 -->
+    <a class="project-card reveal" href="CRIM%20545%20Project%203.html" target="_blank" data-cats="forecasting spatial">
+      <div class="card-head">
+        <span class="card-tag">&#9670; ARIMA · Shift Analysis</span>
+        <span class="card-num">02</span>
+      </div>
+      <h3 class="card-title">Motor Vehicle Theft by Shift: Hotspot &amp; Temporal Analysis — Washington, D.C.</h3>
+      <p class="card-desc">
+        Shift-differentiated (day, evening, midnight) hotspot analysis of motor vehicle theft in D.C. Generated 2026 ARIMA forecasts by shift with 95% confidence intervals, mapping persistent spatial concentrations across Downtown, Anacostia, and Southeast D.C.
+      </p>
+      <div class="card-foot">
+        <div class="card-tools">
+          <span class="tool-tag">R · ARIMA</span>
+          <span class="tool-tag">ArcGIS</span>
+          <span class="tool-tag">Hotspot</span>
+        </div>
+        <span class="card-arrow">View &rarr;</span>
+      </div>
+    </a>
+
+    <!-- 03 -->
+    <a class="project-card reveal" href="CRIM%20545%20Project%202.html" target="_blank" data-cats="spatial">
+      <div class="card-head">
+        <span class="card-tag">&#9670; KDE · Cluster Analysis</span>
+        <span class="card-num">03</span>
+      </div>
+      <h3 class="card-title">Spatial Crime Pattern Analysis: Sex Abuse, Motor Vehicle Theft &amp; Arson — Washington, D.C.</h3>
+      <p class="card-desc">
+        Applied kernel density estimation and spatial clustering in ArcGIS across three crime types. Identified primary concentrations by neighborhood and translated spatial patterns into actionable intelligence for patrol deployment and resource allocation.
+      </p>
+      <div class="card-foot">
+        <div class="card-tools">
+          <span class="tool-tag">ArcGIS</span>
+          <span class="tool-tag">KDE</span>
+          <span class="tool-tag">Clustering</span>
+        </div>
+        <span class="card-arrow">View &rarr;</span>
+      </div>
+    </a>
+
+    <!-- 04 -->
+    <a class="project-card reveal" href="monthly-emergency-call-forecasting.html" target="_blank" data-cats="forecasting spatial">
+      <div class="card-head">
+        <span class="card-tag">&#9670; ARIMA · Patrol Planning</span>
+        <span class="card-num">04</span>
+      </div>
+      <h3 class="card-title">Traffic Stop Forecasting: ARIMA Time-Series Model — Fairfax City PD</h3>
+      <p class="card-desc">
+        Built an ARIMA model in R using 18 years of call-for-service data (114,445 traffic stop records, 2007–2024). Generated month-by-month spatial forecasts identifying shifting hotspot corridors to support proactive patrol scheduling.
+      </p>
+      <div class="card-foot">
+        <div class="card-tools">
+          <span class="tool-tag">R · ARIMA</span>
+          <span class="tool-tag">Time Series</span>
+          <span class="tool-tag">Spatial Forecast</span>
+        </div>
+        <span class="card-arrow">View &rarr;</span>
+      </div>
+    </a>
+
+    <!-- 05 -->
+    <a class="project-card reveal" href="hate-crime-analysis.html" target="_blank" data-cats="bias">
+      <div class="card-head">
+        <span class="card-tag">&#9670; Bias Crime · Statistical</span>
+        <span class="card-num">05</span>
+      </div>
+      <h3 class="card-title">Hate Crime Trend Analysis: Impact of the Atlanta Spa Shooting on Anti-Asian Bias Crimes</h3>
+      <p class="card-desc">
+        Examined FBI UCR data (2019–2023) to test whether the March 2021 Atlanta Spa Shooting produced a statistically significant rise in anti-Asian hate crimes. Applied t-tests and trend analysis to identify temporal spikes, geographic concentrations, and victim/offender characteristics.
+      </p>
+      <div class="card-foot">
+        <div class="card-tools">
+          <span class="tool-tag">FBI UCR</span>
+          <span class="tool-tag">t-test</span>
+          <span class="tool-tag">Trend Analysis</span>
+        </div>
+        <span class="card-arrow">View &rarr;</span>
+      </div>
+    </a>
+
+    <!-- 06 -->
+    <a class="project-card reveal" href="synthetic-opioid-analysis.html" target="_blank" data-cats="drug spatial">
+      <div class="card-head">
+        <span class="card-tag">&#9670; MDS · K-Means</span>
+        <span class="card-num">06</span>
+      </div>
+      <h3 class="card-title">Synthetic Opioid Distribution Analysis: MDS &amp; K-Means Clustering — NFLIS 2022</h3>
+      <p class="card-desc">
+        Analyzed 2022 NFLIS drug seizure data to map geographic variation in synthetic opioid use across U.S. states. Applied MDS and K-means clustering in R to group states by opioid profiles and link results to potential trafficking network structures.
+      </p>
+      <div class="card-foot">
+        <div class="card-tools">
+          <span class="tool-tag">R · MDS</span>
+          <span class="tool-tag">K-Means</span>
+          <span class="tool-tag">NFLIS</span>
+        </div>
+        <span class="card-arrow">View &rarr;</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-body reveal">
+    <div class="section-label">
+      <span class="section-num">02</span>
+      <h2>About</h2>
+    </div>
+
+    <p>
+      I'm <strong>Raneem Sayyad</strong>, a criminal justice researcher and analyst based in Ashburn, VA.
+      I'm finishing my <strong>M.S. in Criminal Justice</strong> at George Mason University (Expected May 2026)
+      with a perfect 4.0 GPA and the Academic Excellence Award. Before that I earned my B.A. in
+      Criminology, Law &amp; Society — Cum Laude, Dean's List seven times over.
+    </p>
+    <p>
+      My work sits at the intersection of data science and public safety. I translate raw law enforcement
+      records into clear, <strong>actionable intelligence</strong>: spatial hotspot maps that show where crime
+      clusters, ARIMA and neural network forecasts that anticipate when it will spike, and statistical analyses
+      that surface the patterns hidden inside FBI UCR, NFLIS, and calls-for-service datasets.
+    </p>
+    <p>
+      I also volunteer as a <strong>Case Screener</strong> at the Mid-Atlantic Innocence Project, where
+      I review criminal case records for wrongful conviction claims and conduct preliminary legal research —
+      a reminder that rigorous analysis has real stakes for real people.
+    </p>
+    <p>
+      I bring this same precision and care to every role I step into, whether that's a research environment,
+      a policy team, a law enforcement agency, or the intelligence community. If you work with data and
+      want to do something meaningful with it, I'd love to talk.
+    </p>
+
+    <!-- Skills -->
+    <div class="skills-grid" style="margin-top:2rem;">
+      <span class="skill-chip"><span class="skill-dot"></span>Crime Pattern Analysis</span>
+      <span class="skill-chip"><span class="skill-dot"></span>Predictive Modeling</span>
+      <span class="skill-chip"><span class="skill-dot"></span>Spatial / GIS Mapping</span>
+      <span class="skill-chip"><span class="skill-dot"></span>ARIMA Time Series</span>
+      <span class="skill-chip"><span class="skill-dot"></span>Neural Networks (R)</span>
+      <span class="skill-chip"><span class="skill-dot"></span>K-Means / MDS Clustering</span>
+      <span class="skill-chip"><span class="skill-dot"></span>FBI UCR · NFLIS Data</span>
+      <span class="skill-chip"><span class="skill-dot"></span>OSINT &amp; Link Analysis</span>
+      <span class="skill-chip"><span class="skill-dot"></span>ArcGIS Hotspot Analysis</span>
+      <span class="skill-chip"><span class="skill-dot"></span>Policy Reporting</span>
+      <span class="skill-chip"><span class="skill-dot"></span>Wrongful Conviction Review</span>
+      <span class="skill-chip"><span class="skill-dot"></span>Intelligence Community Methods</span>
+    </div>
+
+    <!-- Interactive Experience Timeline -->
+    <div class="timeline-section" style="margin-top:3rem;">
+      <p class="timeline-head">Experience &amp; Involvement — click to expand</p>
+      <div class="timeline">
+
+        <div class="tl-item" onclick="toggleTL(this)">
+          <p class="tl-date">Dec 2024 – Present</p>
+          <p class="tl-role">Case Screener (Volunteer)</p>
+          <p class="tl-org">Mid-Atlantic Innocence Project · Washington, D.C.</p>
+          <p class="tl-detail">Screen criminal case records to identify wrongful conviction claims, applying critical evaluation of evidence and legal documents. Conduct preliminary legal research and synthesize case file information into comprehensive analytical assessments for legal teams.</p>
+        </div>
+
+        <div class="tl-item" onclick="toggleTL(this)">
+          <p class="tl-date">Feb 2025 – Feb 2026</p>
+          <p class="tl-role">Law Clerk / Intern</p>
+          <p class="tl-org">First Point Law Group</p>
+          <p class="tl-detail">Supported legal operations including research, document preparation, and case file management within a law firm environment. Applied knowledge of criminal procedure and legal analysis in a professional legal setting.</p>
+        </div>
+
+        <div class="tl-item" onclick="toggleTL(this)">
+          <p class="tl-date">Jan 2023 – Mar 2024</p>
+          <p class="tl-role">Data Entry Analyst &amp; Front Desk Representative</p>
+          <p class="tl-org">TAV Operation Services · Dulles, VA</p>
+          <p class="tl-detail">Managed passenger data in a Turkish Airlines proprietary database, consolidated daily records into master Excel trackers, and generated end-of-shift reports distributed to airline partners across multiple Star Alliance carriers. Supervised lounge staff and trained new employees on data entry procedures.</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Sidebar: Contact + Certs + Languages -->
+  <div class="about-sidebar reveal">
+    <div class="section-label">
+      <span class="section-num">03</span>
+      <h2>Contact</h2>
+    </div>
+
+    <div class="contact-card">
+      <p class="contact-label">Email</p>
+      <p class="contact-val"><a href="mailto:raneemsayyad5@gmail.com">raneemsayyad5@gmail.com</a></p>
+    </div>
+    <div class="contact-card">
+      <p class="contact-label">Phone</p>
+      <p class="contact-val"><a href="tel:+15719181541">(571) 918-1541</a></p>
+    </div>
+    <div class="contact-card">
+      <p class="contact-label">LinkedIn</p>
+      <p class="contact-val"><a href="https://www.linkedin.com/in/rsayyad/" target="_blank">linkedin.com/in/rsayyad</a></p>
+    </div>
+    <div class="contact-card">
+      <p class="contact-label">Location</p>
+      <p class="contact-val">Ashburn, VA</p>
+    </div>
+
+    <!-- Languages -->
+    <div class="lang-section">
+      <p class="lang-head">Languages</p>
+      <div class="lang-item">
+        <span class="lang-name">English</span>
+        <span class="lang-level">Native</span>
+      </div>
+      <div class="lang-item">
+        <span class="lang-name">Arabic</span>
+        <span class="lang-level">Fluent · Levantine</span>
+      </div>
+    </div>
+
+    <!-- Certifications -->
+    <div class="certs-section">
+      <p class="certs-head">Licenses &amp; Certifications</p>
+
+      <div class="cert-item">
+        <p class="cert-name">Responsible Conduct of Research (RCR)</p>
+        <p class="cert-issuer">CITI Program</p>
+        <p class="cert-date">Issued Feb 2026 · Expires Feb 2030</p>
+      </div>
+
+      <div class="cert-item">
+        <p class="cert-name">Group 1 Social &amp; Behavioral Research</p>
+        <p class="cert-issuer">CITI Program</p>
+        <p class="cert-date">Issued Jan 2026 · Expires Jan 2030</p>
+      </div>
+    </div>
+
+    <a href="mailto:raneemsayyad5@gmail.com" class="btn btn-accent" style="width:100%;justify-content:center;margin-top:1.5rem;display:flex;">
+      Get In Touch
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>Raneem Sayyad &mdash; Crime &amp; Data Analysis Portfolio</span>
+  <span>&copy; 2026</span>
+</footer>
+
+<script>
+// Scroll reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('in'), i * 70);
+    }
+  });
+}, { threshold: 0.07 });
+
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// Filter
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    document.querySelectorAll('.project-card').forEach(card => {
+      const cats = card.dataset.cats || '';
+      const show = filter === 'all' || cats.includes(filter);
+      card.style.display = show ? 'flex' : 'none';
+    });
+  });
+});
+
+// Timeline accordion
+function toggleTL(el) {
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.tl-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) el.classList.add('open');
+}
+</script>
+</body>
+</html>
